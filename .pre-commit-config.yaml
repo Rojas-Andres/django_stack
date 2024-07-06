@@ -22,8 +22,6 @@ repos:
       args: [--django, --pytest, --pytest-test-first]
     - id: file-contents-sorter
     - id: detect-private-key
-    - id: detect-aws-credentials
-      exclude: .env.example
     - id: check-merge-conflict
     - id: check-json
     - id: check-docstring-first

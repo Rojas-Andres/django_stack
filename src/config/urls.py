@@ -7,7 +7,10 @@ from django.contrib import admin
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
+from config.views import HealtCheck
+
 urlpatterns = [
+    path("", HealtCheck.as_view(), name="healtcheck"),
     path("admin/", admin.site.urls),
     path("api/user/", include("user.urls")),
     path("api/auth/", include("authentication.urls")),
