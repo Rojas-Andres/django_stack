@@ -9,14 +9,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql",
+#         "HOST": os.environ.get("DB_HOST"),
+#         "NAME": os.environ.get("DB_NAME"),
+#         "USER": os.environ.get("DB_USER"),
+#         "PORT": os.environ.get("DB_PORT"),
+#         "PASSWORD": os.environ.get("DB_PASS"),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('DB_HOST'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PORT': os.environ.get('DB_PORT'),
-        'PASSWORD': os.environ.get('DB_PASS'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -24,13 +31,13 @@ hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
 INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + ["127.0.0.1", "10.0.2.2"]
 
 SWAGGER_SETTINGS = {
-    'VALIDATOR_URLS': [
-        'http://localhost:8000/__debug__/',  # Agregue la ruta a la barra de herramientas de depuración aquí
+    "VALIDATOR_URLS": [
+        "http://localhost:8000/__debug__/",  # Agregue la ruta a la barra de herramientas de depuración aquí
     ],
 }
 
-MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
-INSTALLED_APPS += ['debug_toolbar']
+MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
+INSTALLED_APPS += ["debug_toolbar"]
 
 
 CORS_ALLOWED_ORIGINS = [

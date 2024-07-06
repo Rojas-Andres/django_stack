@@ -49,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin, BaseModel):
     historical = HistoricalRecords()
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
 
     def __str__(self):
         """Return string representation of user."""

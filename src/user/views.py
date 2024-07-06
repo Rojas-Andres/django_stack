@@ -39,15 +39,15 @@ class UserView(APIView):
         Returns:
         - Response: A response indicating the success or failure of the user creation.
         """
-        if request.data.get('email'):
-            user = User.objects.filter(email=request.data['email']).first()
+        if request.data.get("email"):
+            user = User.objects.filter(email=request.data["email"]).first()
             if user:
                 return Response(
                     {"message": "Error creating user, email already exists"}, status=status.HTTP_400_BAD_REQUEST
                 )
-        if request.data.get('phone_number') and request.data.get('code_phone'):
+        if request.data.get("phone_number") and request.data.get("code_phone"):
             user = User.objects.filter(
-                phone_number=request.data['phone_number'], code_phone=request.data['code_phone']
+                phone_number=request.data["phone_number"], code_phone=request.data["code_phone"]
             ).first()
             if user:
                 return Response(
@@ -58,9 +58,9 @@ class UserView(APIView):
             try:
                 serializer.save()
 
-                context = {"first_name": request.data['first_name'], "url_frontend": os.environ.get("URL_FRONTEND")}
+                context = {"first_name": request.data["first_name"], "url_frontend": os.environ.get("URL_FRONTEND")}
                 html_content = render_to_string("welcome.html", context)
-                to_send_email = [{"email": request.data['email'], "name": request.data['first_name']}]
+                to_send_email = [{"email": request.data["email"], "name": request.data["first_name"]}]
                 send_email("Welcome to Name_APP", html_content, to_send_email)
 
                 return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
@@ -78,21 +78,21 @@ class UserView(APIView):
         Returns:
         - Response: A response indicating the success or failure of the user update.
         """
-        user_id = self.request.data.get('id', self.request.user.id)
+        user_id = self.request.data.get("id", self.request.user.id)
         if not user_id:
             return Response({"message": "User id not found"}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.filter(id=user_id).first()
         if not user:
             return Response({"message": f"User with id {user_id} not found"}, status=status.HTTP_404_NOT_FOUND)
-        if request.data.get('email'):
-            user = User.objects.filter(email=request.data['email']).first()
+        if request.data.get("email"):
+            user = User.objects.filter(email=request.data["email"]).first()
             if user and user.id != user_id:
                 return Response(
                     {"message": "Error updating user, email already exists"}, status=status.HTTP_400_BAD_REQUEST
                 )
-        if request.data.get('phone_number') and request.data.get('code_phone'):
+        if request.data.get("phone_number") and request.data.get("code_phone"):
             user = User.objects.filter(
-                phone_number=request.data['phone_number'], code_phone=request.data['code_phone']
+                phone_number=request.data["phone_number"], code_phone=request.data["code_phone"]
             ).first()
             if user and user.id != user_id:
                 return Response(
@@ -149,7 +149,7 @@ class UserDetailView(APIView):
         - If the user id is not found, it returns an error message with a status code of 400.
         - If the user with the provided id is not found, it returns an error message with a status code of 404.
         """
-        user_id = self.request.query_params.get('id', self.request.user.id)
+        user_id = self.request.query_params.get("id", self.request.user.id)
         if not user_id:
             return Response({"message": "User id not found"}, status=status.HTTP_400_BAD_REQUEST)
         user = User.objects.filter(id=user_id).first()

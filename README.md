@@ -117,3 +117,8 @@ To generate html report:
 Use pre-commit to run linter before commit, the command is:
 
 - `pre-commit run --all-files`
+
+## Docker build local
+` docker build --no-cache -t stack_django . `
+` docker run -p 8000:8000 stack_django `
+` docker push public.ecr.aws/m7j0n8s6/preconfigure_docker `

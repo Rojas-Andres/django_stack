@@ -14,7 +14,7 @@ class LoginSerializer(TokenObtainPairSerializer):
     """
 
     email = serializers.EmailField(required=False, allow_blank=True)
-    password = serializers.CharField(style={'input_type': 'password'})
+    password = serializers.CharField(style={"input_type": "password"})
 
     def validate(self, attrs):
         """
@@ -31,8 +31,8 @@ class LoginSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
 
         # Add custom data to response
-        data['id'] = self.user.id
-        data['name'] = self.user.first_name + ' ' + self.user.last_name
-        data['email'] = self.user.email
+        data["id"] = self.user.id
+        data["name"] = self.user.first_name + " " + self.user.last_name
+        data["email"] = self.user.email
 
         return data

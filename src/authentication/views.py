@@ -70,15 +70,15 @@ class LoginView(TokenObtainPairView):
             A JSON response with the user's details, tokens, and status code.
 
         """
-        request_email = request.data.get('email')
-        request_password = request.data.get('password')
+        request_email = request.data.get("email")
+        request_password = request.data.get("password")
         if not request_email or not request_password:
             return Response(
                 {"message": "Error Email or Password not found", "status": status.HTTP_400_BAD_REQUEST},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        if request.data.get('email'):
-            user = User.objects.filter(email=request.data['email']).first()
+        if request.data.get("email"):
+            user = User.objects.filter(email=request.data["email"]).first()
             if not user:
                 return Response(
                     {"message": "Error Email not found", "status": status.HTTP_400_BAD_REQUEST},
@@ -218,17 +218,17 @@ class SendOTPView(APIView):
         """
         Send an OTP code to the user's phone number.
         """
-        email = request.data.get('email', None)
+        email = request.data.get("email", None)
 
         if not email:
-            return Response({'error': 'Email is required!'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Email is required!"}, status=status.HTTP_400_BAD_REQUEST)
 
         user = User.objects.filter(email=email).first()
         if not user:
-            return Response({'error': 'Email is not registered!'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Email is not registered!"}, status=status.HTTP_404_NOT_FOUND)
 
         if user.is_active is False:
-            return Response({'error': 'User is not active'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "User is not active"}, status=status.HTTP_400_BAD_REQUEST)
 
         # Generate OTP
         verification_code = secrets.randbelow(900000) + 100000
@@ -250,7 +250,7 @@ class SendOTPView(APIView):
         to_send_email = [{"email": user.email, "name": user.first_name}]
         send_email(f"Your OTP code for APP_NAME login is {str(otp.code)}", html_content, to_send_email)
 
-        return Response({'success': True, 'message': 'Code sent successfully!'})
+        return Response({"success": True, "message": "Code sent successfully!"})
 
 
 class LoginOTPView(APIView):
@@ -277,8 +277,8 @@ class LoginOTPView(APIView):
         - response: The JSON response containing the user's details and tokens.
         - status_code: The HTTP status code of the response.
         """
-        email = request.data.get('email', None)
-        otp = request.data.get('otp', None)
+        email = request.data.get("email", None)
+        otp = request.data.get("otp", None)
         response = {}
 
         if not email or not otp:
@@ -302,13 +302,13 @@ class LoginOTPView(APIView):
         """
         missing_fields = []
         if not email:
-            missing_fields.append('email')
+            missing_fields.append("email")
         if not otp:
-            missing_fields.append('OTP')
+            missing_fields.append("OTP")
         if not otp and not email:
-            missing_fields = ['email', 'OTP']
+            missing_fields = ["email", "OTP"]
         error_message = f"Missing required fields: {', '.join(missing_fields)}"
-        response = {'error': error_message}
+        response = {"error": error_message}
         status_code = 400
         return response, status_code
 
@@ -326,19 +326,19 @@ class LoginOTPView(APIView):
         """
         user = User.objects.filter(email=email).first()
         if not user:
-            response = {'error': 'Email not registered'}
+            response = {"error": "Email not registered"}
             status_code = status.HTTP_404_NOT_FOUND
         elif user.is_active is False:
-            response = {'error': 'User is not active'}
+            response = {"error": "User is not active"}
             status_code = status.HTTP_400_BAD_REQUEST
         else:
             # Check OTP
             otp = OTP.objects.filter(user=user, code=otp).first()
             if not otp:
-                response = {'error': 'Invalid OTP'}
+                response = {"error": "Invalid OTP"}
                 status_code = status.HTTP_400_BAD_REQUEST
             elif otp.is_expired():
-                response = {'error': 'OTP is expired'}
+                response = {"error": "OTP is expired"}
                 status_code = status.HTTP_400_BAD_REQUEST
             else:
                 if otp.is_active:
@@ -364,7 +364,7 @@ class LoginOTPView(APIView):
 
                     status_code = status.HTTP_200_OK
                 else:
-                    response = {'error': 'OTP is not active, please request a new one.'}
+                    response = {"error": "OTP is not active, please request a new one."}
                     status_code = status.HTTP_400_BAD_REQUEST
 
         return response, status_code

@@ -28,7 +28,7 @@ def send_email(
         str: Error message if an exception occurs.
     """
     configuration = sib_api_v3_sdk.Configuration()
-    configuration.api_key['api-key'] = os.environ.get('BREVO_API_KEY')
+    configuration.api_key["api-key"] = os.environ.get("BREVO_API_KEY")
 
     api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(configuration))
     sender = {"name": os.environ.get("SENDER_NAME"), "email": os.environ.get("SENDER_EMAIL")}

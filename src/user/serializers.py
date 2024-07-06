@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         model = User
         fields = "__all__"
-        extra_kwargs = {'password': {'write_only': True, 'min_length': 5}}
+        extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
 
     def create(self, validated_data):
         """
@@ -43,8 +43,8 @@ class UserSerializer(serializers.ModelSerializer):
         The User object is then saved with the encrypted password and returned.
         """
 
-        if validated_data.get('email'):
-            validated_data['email'] = validated_data['email'].lower()
+        if validated_data.get("email"):
+            validated_data["email"] = validated_data["email"].lower()
         return User.objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):
@@ -56,7 +56,7 @@ class UserSerializer(serializers.ModelSerializer):
         The updated User object is then returned.
         """
 
-        password = validated_data.pop('password', None)
+        password = validated_data.pop("password", None)
         user = super().update(instance, validated_data)
 
         if password:
@@ -76,16 +76,16 @@ class UserSerializer(serializers.ModelSerializer):
         """
 
         if not instance.is_active:
-            raise ValidationError({'error': 'This user is not active'})
+            raise ValidationError({"error": "This user is not active"})
         data = {
-            'id': instance.id,
-            'email': instance.email,
-            'first_name': instance.first_name,
-            'last_name': instance.last_name,
-            'document': instance.document,
-            'phone_number': instance.phone_number,
-            'is_active': instance.is_active,
-            'created_at': instance.created_at,
+            "id": instance.id,
+            "email": instance.email,
+            "first_name": instance.first_name,
+            "last_name": instance.last_name,
+            "document": instance.document,
+            "phone_number": instance.phone_number,
+            "is_active": instance.is_active,
+            "created_at": instance.created_at,
         }
         return data
 
@@ -111,13 +111,13 @@ class CustomUserDetailSerializer(serializers.ModelSerializer):
 
         model = get_user_model()
         fields = [
-            'id',
-            'email',
-            'is_staff',
-            'is_superuser',
-            'first_name',
-            'last_name',
-            'phone_number',
+            "id",
+            "email",
+            "is_staff",
+            "is_superuser",
+            "first_name",
+            "last_name",
+            "phone_number",
             "profile_image",
         ]
 
@@ -136,7 +136,7 @@ class CustomUserDetailSerializer(serializers.ModelSerializer):
 
         """
         if not instance.is_active:
-            raise ValidationError({'error': 'This user is not active'})
+            raise ValidationError({"error": "This user is not active"})
         representation = super().to_representation(instance)
-        data = {'data': representation}
+        data = {"data": representation}
         return data
