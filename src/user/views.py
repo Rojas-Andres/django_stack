@@ -115,7 +115,7 @@ class UserListView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self):
         """
         Handles the GET request and retrieves all users.
 
@@ -137,7 +137,7 @@ class UserDetailView(APIView):
 
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
+    def get(self):
         """
         Retrieve the details of the user logged in.
 

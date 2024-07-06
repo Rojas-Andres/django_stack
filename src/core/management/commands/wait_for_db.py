@@ -11,7 +11,7 @@ from psycopg2 import OperationalError as Psycopg2OpError
 class Command(BaseCommand):
     """Django command to wait for database."""
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **options):  # pylint: disable=unused-argument
         """Entrypoint for command."""
         self.stdout.write("Waiting for database...")
         db_up = False

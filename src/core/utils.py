@@ -69,9 +69,6 @@ def send_sms(phone_number, message):
     try:
         sns_client = boto3.client(
             "sns",
-            region_name=os.environ.get("AWS_REGION_NAME"),
-            aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID"),
-            aws_secret_access_key=os.environ.get("AWS_SECRET_ACCESS_KEY"),
         )
         response = sns_client.publish(PhoneNumber=phone_number, Message=message)
 

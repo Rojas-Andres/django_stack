@@ -1,4 +1,6 @@
-import os
+"""
+Development settings
+"""
 import socket  # only if you haven't already imported this
 
 from .base import *  # noqa
@@ -21,9 +23,9 @@ ALLOWED_HOSTS = ["*"]
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",  # noqa
     }
 }
 

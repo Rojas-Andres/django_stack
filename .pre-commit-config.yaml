@@ -1,9 +1,14 @@
 default_language_version:
-  python: python3.9
+  python: python3.11
 default_stages:
   - commit
   - push
-exclude: .*migrations\/.*
+exclude: >
+  (?x)^(
+      .*migrations\/.*
+      | gunicorn.conf.py
+      | src/gunicorn.conf.py
+  )$
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
@@ -18,6 +23,7 @@ repos:
     - id: file-contents-sorter
     - id: detect-private-key
     - id: detect-aws-credentials
+      exclude: .env.example
     - id: check-merge-conflict
     - id: check-json
     - id: check-docstring-first
@@ -36,7 +42,7 @@ repos:
           - --ignore=W503
 
   - repo: https://github.com/pycqa/pylint
-    rev: v2.12.2
+    rev: v3.0.3
     hooks:
       - id: pylint
         args:
@@ -48,16 +54,14 @@ repos:
         exclude: (tests|.pylintrc|manage.py)
         verbose: true
 
-  - repo: https://github.com/psf/black
-    rev: 23.7.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version.
+    rev: v0.1.14
     hooks:
-      - id: black
-        language_version: python3
-        additional_dependencies: ["click==8.0.4"]
-        args:
-          - --diff # show format suggestions
-          - --line-length=120
-
+      # Run the linter.
+      - id: ruff
+      # Run the formatter.
+      - id: ruff-format
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
